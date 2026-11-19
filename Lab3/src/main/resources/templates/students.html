@@ -1,0 +1,148 @@
+
+<!DOCTYPE html>
+<html lang="uk" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Студенти | Деканат</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 1050px;
+            margin: 40px auto;
+            background: #f4f6fb;
+            color: #263347;
+        }
+
+        h1 { color: #203b67; }
+
+        .buttons { margin-bottom: 20px; }
+
+        a, button {
+            display: inline-block;
+            padding: 9px 14px;
+            margin: 3px;
+            border: none;
+            border-radius: 5px;
+            background: #3267bb;
+            color: white;
+            text-decoration: none;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        button.delete { background: #c83e4d; }
+
+        .search {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+
+        input {
+            padding: 10px;
+            margin: 5px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+        }
+
+        th, td {
+            padding: 14px;
+            border: 1px solid #ddd;
+            text-align: left;
+        }
+
+        th {
+            background: #203b67;
+            color: white;
+        }
+
+        .inline-form { display: inline; }
+    </style>
+</head>
+<body>
+
+<h1>Деканат — список студентів</h1>
+
+<div class="buttons">
+    <a th:href="@{/students/new}">+ Додати студента</a>
+    <a th:href="@{/groups}">Навчальні групи</a>
+</div>
+
+<div class="search">
+    <h3>Пошук студентів</h3>
+
+    <form th:action="@{/students}" method="get">
+        <input type="text"
+               name="lastName"
+               th:value="${lastName}"
+               placeholder="Прізвище студента">
+
+        <input type="text"
+               name="groupName"
+               th:value="${groupName}"
+               placeholder="Назва групи">
+
+        <button type="submit">Знайти</button>
+        <a th:href="@{/students}">Скинути</a>
+    </form>
+</div>
+
+<table>
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>Ім'я</th>
+        <th>Прізвище</th>
+        <th>Група</th>
+        <th>Дії</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    <tr th:each="student : ${students}">
+        <td th:text="${student.id}"></td>
+        <td th:text="${student.firstName}"></td>
+        <td th:text="${student.lastName}"></td>
+
+        <td>
+            <span th:each="group : ${groups}"
+                  th:if="${group.id == student.groupId}"
+                  th:text="${group.name}">
+            </span>
+        </td>
+
+        <td>
+            <a th:href="@{/students/edit/{id}(id=${student.id})}">
+                Редагувати
+            </a>
+
+            <form class="inline-form"
+                  th:action="@{/students/delete/{id}(id=${student.id})}"
+                  method="post">
+
+                <button class="delete"
+                        type="submit"
+                        onclick="return confirm('Видалити студента?')">
+                    Видалити
+                </button>
+            </form>
+        </td>
+    </tr>
+
+    <tr th:if="${#lists.isEmpty(students)}">
+        <td colspan="5" style="text-align:center;">
+            Студентів не знайдено
+        </td>
+    </tr>
+    </tbody>
+</table>
+
+</body>
+</html>

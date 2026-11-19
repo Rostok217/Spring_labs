@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="uk" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Групи | Деканат</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 950px;
+            margin: 40px auto;
+            background: #f4f6fb;
+            color: #263347;
+        }
+        h1 { color: #203b67; }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+            margin-top: 20px;
+        }
+        th, td {
+            padding: 14px;
+            border: 1px solid #ddd;
+            text-align: left;
+        }
+        th {
+            background: #203b67;
+            color: white;
+        }
+        a, button {
+            display: inline-block;
+            padding: 8px 12px;
+            margin: 3px;
+            border: none;
+            border-radius: 5px;
+            background: #3267bb;
+            color: white;
+            text-decoration: none;
+            cursor: pointer;
+            font-size: 14px;
+        }
+        button.delete { background: #c83e4d; }
+        form { display: inline; }
+    </style>
+</head>
+<body>
+
+<h1>Деканат — навчальні групи</h1>
+
+<a th:href="@{/groups/new}">+ Додати групу</a>
+<a th:href="@{/students}">Переглянути студентів</a>
+
+<table>
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>Назва групи</th>
+        <th>Дії</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="group : ${groups}">
+        <td th:text="${group.id}"></td>
+        <td th:text="${group.name}"></td>
+        <td>
+            <a th:href="@{/groups/edit/{id}(id=${group.id})}">
+                Редагувати
+            </a>
+            <form th:action="@{/groups/delete/{id}(id=${group.id})}"
+                  method="post">
+                <button class="delete" type="submit"
+                        onclick="return confirm('Видалити групу та її студентів?')">
+                    Видалити
+                </button>
+            </form>
+        </td>
+    </tr>
+    </tbody>
+</table>
+
+</body>
+</html>
