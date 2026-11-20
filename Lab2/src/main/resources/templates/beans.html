@@ -1,0 +1,66 @@
+
+<!DOCTYPE html>
+<html lang="uk" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Демонстрація бінів Spring</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 700px;
+            margin: 60px auto;
+            background: #f4f6fb;
+            color: #263347;
+        }
+
+        .card {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+        }
+
+        h1 { color: #203b67; }
+
+        .result {
+            background: #e8eef9;
+            padding: 18px;
+            border-radius: 6px;
+            font-size: 18px;
+            margin: 20px 0;
+        }
+
+        a {
+            display: inline-block;
+            padding: 10px 18px;
+            background: #3267bb;
+            color: white;
+            border-radius: 5px;
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+
+<div class="card">
+    <h1>Демонстрація Spring Beans</h1>
+
+    <p>Перевірка областей видимості бінів:</p>
+
+    <div class="result" th:text="${result}"></div>
+
+    <p>
+        <b>Singleton:</b> один екземпляр біна
+        використовується повторно.
+    </p>
+
+    <p>
+        <b>Prototype:</b> при кожному запиті до
+        контейнера створюється новий екземпляр.
+    </p>
+
+    <a th:href="@{/beans}">Перевірити повторно</a>
+    <a th:href="@{/groups}">Назад до деканату</a>
+</div>
+
+</body>
+</html>
